@@ -1,0 +1,67 @@
+;;;
+;;; pyasm Driver
+;;;
+
+[Version]
+Signature   = "$Windows NT$"
+Provider    = %CompanyName%
+ 
+[DestinationDirs]
+DefaultDestDir     = 12
+Driver.DriverFiles = 12            ;%windir%\system32\drivers
+
+;;
+;; Default install sections
+;;
+
+[DefaultInstall]
+CopyFiles  = Driver.DriverFiles
+
+[DefaultInstall.Services]
+AddService = %DriverName%,%SPSVCINST_ASSOCSERVICE%,Driver.Service
+
+;;
+;; Default uninstall sections
+;;
+
+[DefaultUninstall]
+DelFiles = Driver.DriverFiles
+
+[DefaultUninstall.Services]
+DelService = %DriverName%,%SPSVCINST_STOPSERVICE%      ; Ensure service is stopped before deleting
+
+;;
+;; Services Section
+;;
+
+[Driver.Service]
+ServiceBinary = %12%\%DriverName%.sys        ;%windir%\system32\drivers\%DriverName%.sys
+ServiceType   = %SERVICE_KERNEL_DRIVER%
+StartType     = %SERVICE_SYSTEM_START%
+ErrorControl  = %SERVICE_ERROR_NORMAL%
+
+;;
+;; Copy Files
+;;
+
+[Driver.DriverFiles]
+%DriverName%.sys
+
+[SourceDisksFiles]
+%DriverName%.sys = 1,,
+
+[SourceDisksNames]
+1 = %DriverName%,,,
+
+;;
+;; String Section
+;;
+
+[Strings]
+CompanyName            = ""
+DriverName             = "pyasm"
+SPSVCINST_ASSOCSERVICE = 0x00000002
+SPSVCINST_STOPSERVICE  = 0x00000200
+SERVICE_KERNEL_DRIVER  = 1
+SERVICE_SYSTEM_START   = 1
+SERVICE_ERROR_NORMAL   = 1
