@@ -3,8 +3,11 @@
 ;;;
 
 [Version]
+Class		= System
+ClassGuid	= {4d36e97d-e325-11ce-bfc1-08002be10318}
 Signature   = "$Windows NT$"
 Provider    = %CompanyName%
+CatalogFile	= pyasm.cat
  
 [DestinationDirs]
 DefaultDestDir     = 12
@@ -48,7 +51,7 @@ ErrorControl  = %SERVICE_ERROR_NORMAL%
 %DriverName%.sys
 
 [SourceDisksFiles]
-%DriverName%.sys = 1,,
+pyasm.sys = 1,,
 
 [SourceDisksNames]
 1 = %DriverName%,,,
@@ -58,7 +61,7 @@ ErrorControl  = %SERVICE_ERROR_NORMAL%
 ;;
 
 [Strings]
-CompanyName            = ""
+CompanyName            = "pyasm"
 DriverName             = "pyasm"
 SPSVCINST_ASSOCSERVICE = 0x00000002
 SPSVCINST_STOPSERVICE  = 0x00000200

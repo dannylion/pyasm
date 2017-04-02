@@ -2,7 +2,7 @@
 Write a simple driver and python client that lets me run prievilieged opcodes from the Windows kernel such as: rdmsr, etc...
 
 # Dependencies
-	pip install pywin32 construct ipython pyreadline
+	pip install pywin32 ipython pyreadline
 	
 # Usage
 	To use this library first run the following command and reboot:

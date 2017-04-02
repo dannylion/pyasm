@@ -34,3 +34,5 @@
 *.nam
 *.til
 bin/*
+/pyasm.VC.VC.opendb
+/pyasm.VC.db

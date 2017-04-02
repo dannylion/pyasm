@@ -29,11 +29,6 @@ import win32file
 from ctypes import (
 	sizeof,
 	c_uint64)
-from construct import (
-	Container, 
-	Struct,
-	ULInt32,
-	ULInt64)
 	
 import MsrCodes
 
@@ -94,30 +89,20 @@ class PyasmDriverIO(BaseDriverIO):
 	_IOCTL_RDMSR	= CTL_CODE(FILE_DEVICE_UNKNOWN, 0x1000, METHOD_BUFFERED, FILE_ANY_ACCESS)
 	_IOCTL_WRMSR	= CTL_CODE(FILE_DEVICE_UNKNOWN, 0x1001, METHOD_BUFFERED, FILE_ANY_ACCESS)
 	
-	# IOCTL Structures
-	_IOCTL_RDMSR_STRUCT	= Struct(
-		"_IOCTL_RDMSR",
-		ULInt32("dwMsrCode"))
-	
-	_IOCTL_WRMSR_STRUCT	= Struct(
-		"_IOCTL_WRMSR",
-		ULInt32("dwMsrCode"),
-		ULInt64("qwValue"))
-	
 	def __init__(self, bOpenHandle = True, logFunc = lambda s: sys.stdout.write("%s\n" % s)):
 		super(PyasmDriverIO, self).__init__(bOpenHandle, logFunc)
 		
 	def rdmsr(self, dwMsrCode):
 		raw_data = self._ioctl(
 			self._IOCTL_RDMSR, 
-			self._IOCTL_RDMSR_STRUCT.build(Container(dwMsrCode = dwMsrCode)),
+			struct.pack("<L", dwMsrCode),
 			sizeof(c_uint64))
 		return int(raw_data[::-1].encode("hex"), 16)
 			
 	def wrmsr(self, dwMsrCode, qwValue):
 		return self._ioctl(
 			self._IOCTL_WRMSR, 
-			self._IOCTL_WRMSR_STRUCT.build(Container(dwMsrCode = dwMsrCode, qwValue = qwValue)),
+			struct.pack("<LQ", dwMsrCode, qwValue),
 			0)
 
 def main():
